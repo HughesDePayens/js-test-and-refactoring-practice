@@ -1,4 +1,4 @@
-const expect  = require('chai').expect;
+const expect = require('chai').expect;
 const dieRoller = require('../app/die-roller');
 
 describe('Die Roller App', function() {

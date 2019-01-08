@@ -8,12 +8,13 @@ describe('Commands and Colors - Napoleonics Combat', function() {
         combatType: 'melee',
         numberOfDice: 4,
         faces: combat.getDieFaces(),
-        target: 'Cavalry'
+        target: 'Cavalry',
       };
 
       const combatResult = combat.resolveCombat(data);
 
       expect(combatResult).to.be.an('object');
+      expect(combatResult.hits).to.be.a('number');
     });
   });
 
@@ -23,7 +24,7 @@ describe('Commands and Colors - Napoleonics Combat', function() {
         combatType: 'melee',
         numberOfDice: 4,
         faces: combat.getDieFaces(),
-        target: 'Cavalry'
+        target: 'Cavalry',
       };
 
       const hits = combat.getHits(data);
