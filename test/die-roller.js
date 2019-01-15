@@ -3,7 +3,7 @@ const dieRoller = require('../app/die-roller');
 
 describe('Die Roller App', function() {
   describe('Roll A Die', function() {
-    it('rolls a die with the provided face values and returns one face result', function() {
+    it('Rolls a die with the provided face values and returns one face result', function() {
       const faces = [1, 2, 3, 4, 5, 6];
       const dieRoll = dieRoller.rollDie(faces);
 
@@ -12,7 +12,7 @@ describe('Die Roller App', function() {
   });
 
   describe('Roll Dice', function() {
-    it('rolls a requested number of dice with provided face values and returns an array of face results', function() {
+    it('Rolls a requested number of dice with provided face values and returns an array of face results', function() {
       const faces = ['Infantry', 'Infantry', 'Cavalry', 'Artillery', 'Saber', 'Flag'];
       const numberOfDice = 5;
       const dieResults = dieRoller.rollDice(numberOfDice, faces);

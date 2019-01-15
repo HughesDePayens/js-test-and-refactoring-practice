@@ -34,4 +34,22 @@ describe('Commands and Colors - Napoleonics Combat', function() {
       expect(hits).to.be.most(data.numberOfDice);
     });
   });
+
+  describe('Evaluate Hit', function () {
+    it('Returns true when the type of combat is "melee" and the face on the die is "Saber"', function () {
+      expect(combat.evaluateHit('Saber', 'melee', 'Infantry')).to.be.true;
+    });
+
+    it('Returns true if the die face matches the type of target.', function () {
+      expect(combat.evaluateHit('Infantry', 'ranged', 'Infantry')).to.be.true;
+    });
+
+    it('Returns false when the type of combat is "melee" and the face on the die is not "Saber", and does not match the target', function () {
+      expect(combat.evaluateHit('Cavalry', 'melee', 'Infantry')).to.be.false;
+    });
+
+    it('Returns false if the die face does not match the type of target and the combat type is not "melee"', function () {
+      expect(combat.evaluateHit('Cavalry', 'ranged', 'Infantry')).to.be.false;
+    });
+  });
 });

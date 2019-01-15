@@ -8,16 +8,12 @@ exports.resolveCombat = function(data) {
 
 exports.getHits = function(data) {
   return dieRoller.rollDice(data.numberOfDice, data.faces).map((dieRoll) => {
-    return evaluateHit(dieRoll, data.combatType, data.target);
+    return exports.evaluateHit(dieRoll, data.combatType, data.target);
   }).filter((isHit) => isHit).length;
 };
 
-evaluateHit = function(face, type, target) {
-  return exports.isMeleeHit() || exports.isMatchedFace();
-};
-
-exports.getDieFaces = function() {
-  return ['Infantry', 'Infantry', 'Cavalry', 'Artillery', 'Saber', 'Flag'];
+exports.evaluateHit = function(face, type, target) {
+  return exports.isMeleeHit(type, face) || exports.isMatchedFace(face, target);
 };
 
 exports.isMeleeHit = function (type, face) {
@@ -27,3 +23,7 @@ exports.isMeleeHit = function (type, face) {
 exports.isMatchedFace = function (face, target) {
   return face === target;
 }
+
+exports.getDieFaces = function() {
+  return ['Infantry', 'Infantry', 'Cavalry', 'Artillery', 'Saber', 'Flag'];
+};
