@@ -1,15 +1,17 @@
 const dieRoller = require('./die-roller');
 
 exports.resolveCombat = function(data) {
+  const dieRolls = dieRoller.rollDice(data.numberOfDice, data.faces);
+
   return {
-    hits: exports.getHits(data),
+    hits: exports.getHits(dieRolls, data),
+    retreats: exports.getRetreats(dieRolls),
   };
 };
 
-exports.getHits = function(data) {
-  return dieRoller.rollDice(data.numberOfDice, data.faces).map((dieRoll) => {
-    return exports.evaluateHit(dieRoll, data.combatType, data.target);
-  }).filter((isHit) => isHit).length;
+exports.getHits = function(dieRolls, data) {
+  return dieRolls.map((dieRoll) => exports.evaluateHit(dieRoll, data.combatType, data.target))
+    .filter((isHit) => isHit).length;
 };
 
 exports.evaluateHit = function(face, type, target) {
@@ -22,6 +24,10 @@ exports.isMeleeHit = function (type, face) {
 
 exports.isMatchedFace = function (face, target) {
   return face === target;
+}
+
+exports.getRetreats = function(dieRolls) {
+  return dieRolls.filter((dieRoll) => dieRoll === 'Flag').length;
 }
 
 exports.getDieFaces = function() {

@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const combat = require('../app/combat');
+const dieRoller = require('../app/die-roller');
 
 describe('Commands and Colors - Napoleonics Combat', function() {
   describe('Resolve Combat', function() {
@@ -19,7 +20,7 @@ describe('Commands and Colors - Napoleonics Combat', function() {
   });
 
   describe('Get Hits', function() {
-    it('Returns a number of hits by rolling dice and applying hits depending on the type of combat and target', function() {
+    it('Returns a number of hits evaluating the results of die rolls and applying hits depending on the type of combat and target', function() {
       const data = {
         combatType: 'melee',
         numberOfDice: 4,
@@ -27,7 +28,8 @@ describe('Commands and Colors - Napoleonics Combat', function() {
         target: 'Cavalry',
       };
 
-      const hits = combat.getHits(data);
+      const dieRoll = dieRoller.rollDice(data.numberOfDice, data.faces);
+      const hits = combat.getHits(dieRoll, data);
 
       expect(hits).to.be.a('number');
       expect(hits).to.be.least(0);
@@ -50,6 +52,20 @@ describe('Commands and Colors - Napoleonics Combat', function() {
 
     it('Returns false if the die face does not match the type of target and the combat type is not "melee"', function () {
       expect(combat.evaluateHit('Cavalry', 'ranged', 'Infantry')).to.be.false;
+    });
+  });
+
+  describe('Get Retreats', function() {
+    it('Returns a number of retreats equal to the number of flags in a set of die rolls - Testing 1 Flag', function() {
+      const dieFaces = ['Flag', 'Saber', 'Cavalry', 'Infantry', 'Artillery'];
+
+      expect(combat.getRetreats(dieFaces)).to.equal(1);
+    });
+
+    it('Returns a number of retreats equal to the number of flags in a set of die rolls - Testing Zero Flags', function() {
+      const dieFaces = ['Saber', 'Cavalry', 'Infantry', 'Artillery'];
+
+      expect(combat.getRetreats(dieFaces)).to.equal(0);
     });
   });
 });
